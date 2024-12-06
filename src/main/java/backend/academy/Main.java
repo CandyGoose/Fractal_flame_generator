@@ -1,30 +1,25 @@
 package backend.academy;
 
-import backend.academy.format.ImageFormat;
-import backend.academy.utils.ImageUtils;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.PrintStream;
 import lombok.experimental.UtilityClass;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @UtilityClass
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    private static final Logger LOGGER = LogManager.getLogger(Main.class);
 
-        Path outputDir = Paths.get("output");
+    public static void main(String[] args) {
+        PrintStream out = System.out;
 
-        if (Files.notExists(outputDir)) {
-            Files.createDirectories(outputDir);
-        }
-
-        for (int i = 0; i < 1; i++) {
-            ImageUtils.saveFractalFlame(
-                FractalFlameGenerator.generateRandom(false),
-                outputDir,
-                ImageFormat.PNG
-            );
+        try {
+            FractalFlameRunner.run(out);
+        } catch (IOException e) {
+            LOGGER.error("Ошибка ввода/вывода: {}", e.getMessage());
+        } catch (Exception e) {
+            LOGGER.error("Непредвиденная ошибка: {}", e.getMessage(), e);
         }
     }
 }
