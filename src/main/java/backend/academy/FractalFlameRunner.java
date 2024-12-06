@@ -51,6 +51,8 @@ public class FractalFlameRunner {
     private static final int MIN_SYMMETRY = 1;
     private static final int MAX_SYMMETRY = 20;
 
+    private static final double NANOSECONDS_IN_SECOND = 1_000_000_000.0;
+
     private static final String DEFAULT_PROMPT = " (по умолчанию %s): ";
     private static final String RANGE_WARNING =
         "Значение должно быть в диапазоне [%d, %d]. Используется значение по умолчанию: %d\n";
@@ -102,9 +104,16 @@ public class FractalFlameRunner {
                 + String.format(DEFAULT_PROMPT, DEFAULT_FORMAT.name().toLowerCase()),
             DEFAULT_FORMAT);
 
-        Renderer renderer = useParallel
-            ? new ParallelRenderer(width, height, selectedTransformations)
-            : new DefaultRenderer(width, height, selectedTransformations);
+        Renderer renderer;
+        long startTime = System.nanoTime();
+        if (useParallel) {
+            renderer = new ParallelRenderer(width, height, selectedTransformations);
+            out.println("Используется многопоточный рендеринг.");
+            out.printf("Доступно процессоров: %d%n", Runtime.getRuntime().availableProcessors());
+        } else {
+            renderer = new DefaultRenderer(width, height, selectedTransformations);
+            out.println("Используется однопоточный рендеринг.");
+        }
 
         FractalImage fractalImage = renderer.render(
             Rectangle.getDefaultRectangle(),
@@ -113,6 +122,9 @@ public class FractalFlameRunner {
             symmetry,
             GAMMA_CORRECTION
         );
+
+        long duration = System.nanoTime() - startTime;
+        out.printf("Рендер занял: %.2f сек%n", duration / NANOSECONDS_IN_SECOND);
 
         Path outputDir = DEFAULT_OUTPUT_DIR;
         if (Files.notExists(outputDir)) {
