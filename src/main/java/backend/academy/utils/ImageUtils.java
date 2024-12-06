@@ -1,10 +1,13 @@
 package backend.academy.utils;
 
+import backend.academy.format.ImageFormat;
 import backend.academy.model.FractalImage;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.UUID;
+import javax.imageio.ImageIO;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 
@@ -15,7 +18,7 @@ public class ImageUtils {
     private static final int OFFSET_GREEN = 8;
 
     @SneakyThrows
-    public static Path saveFractalFlame(FractalImage fractalImage, Path path) {
+    public static Path saveFractalFlame(FractalImage fractalImage, Path path, ImageFormat format) {
         BufferedImage image = new BufferedImage(
             fractalImage.width(),
             fractalImage.height(),
@@ -23,7 +26,13 @@ public class ImageUtils {
         );
         File imageFile = path.toFile();
         if (!imageFile.isFile()) {
-            imageFile = Files.createFile(path).toFile();
+            if (imageFile.isDirectory()) {
+                imageFile = Files.createFile(
+                    path.resolve("image" + UUID.randomUUID() + "." + format.name().toLowerCase())
+                ).toFile();
+            } else {
+                imageFile = Files.createFile(path).toFile();
+            }
         }
         for (int y = 0; y < fractalImage.height(); y++) {
             for (int x = 0; x < fractalImage.width(); x++) {
@@ -32,6 +41,7 @@ public class ImageUtils {
                 image.setRGB(x, y, rgb);
             }
         }
-        return null;
+        ImageIO.write(image, format.name().toLowerCase(), imageFile);
+        return imageFile.toPath();
     }
 }
