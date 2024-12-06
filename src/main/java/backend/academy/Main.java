@@ -2,21 +2,29 @@ package backend.academy;
 
 import backend.academy.format.ImageFormat;
 import backend.academy.utils.ImageUtils;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class Main {
 
-    public static void main(String[] args) {
-        var fractalImage = FractalFlameGenerator.generateRandom(false);
+    public static void main(String[] args) throws IOException {
 
-        ImageUtils.saveFractalFlame(
-            fractalImage,
-            Path.of("output/fractal.png"),
-            ImageFormat.PNG
-        );
+        Path outputDir = Paths.get("output");
 
-        System.out.println("Фрактал успешно сохранен в output/fractal.png");
+        if (Files.notExists(outputDir)) {
+            Files.createDirectories(outputDir);
+        }
+
+        for (int i = 0; i < 1; i++) {
+            ImageUtils.saveFractalFlame(
+                FractalFlameGenerator.generateRandom(false),
+                outputDir,
+                ImageFormat.PNG
+            );
+        }
     }
 }

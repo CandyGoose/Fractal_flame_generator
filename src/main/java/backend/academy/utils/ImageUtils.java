@@ -15,7 +15,10 @@ import lombok.experimental.UtilityClass;
 public class ImageUtils {
 
     private static final int OFFSET_RED = 16;
+
     private static final int OFFSET_GREEN = 8;
+
+
 
     @SneakyThrows
     public static Path saveFractalFlame(FractalImage fractalImage, Path path, ImageFormat format) {
