@@ -2,9 +2,9 @@ package backend.academy.utils;
 
 import backend.academy.format.ImageFormat;
 import backend.academy.model.FractalImage;
+import java.nio.file.Path;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
-import java.nio.file.Path;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class ImageUtilsTest {

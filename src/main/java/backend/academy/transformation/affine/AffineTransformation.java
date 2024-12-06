@@ -8,12 +8,6 @@ import backend.academy.transformation.Transformation;
 public record AffineTransformation(AffineTransformationCoefficients coefficients, Color color)
     implements Transformation {
 
-    /**
-     * Returns: new Point(newX, newY)
-     *  / a  b \    / x \    / c \    / newX \
-     * |       | * |    | + |    | = |       |
-     * \ d  e /    \ y /    \ f /    \ newY /
-     */
     @Override
     public Point apply(Point point) {
         return new Point(

@@ -3,7 +3,6 @@ package backend.academy.model;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import static java.lang.Math.log10;
 import static java.lang.Math.pow;

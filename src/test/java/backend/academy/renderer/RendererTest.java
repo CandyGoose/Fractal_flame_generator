@@ -3,9 +3,8 @@ package backend.academy.renderer;
 import backend.academy.imageProcessor.ColorCorrection;
 import backend.academy.model.Rectangle;
 import backend.academy.transformation.nonLinear.DiscTransformation;
-import org.junit.jupiter.api.Test;
-
 import java.util.List;
+import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class RendererTest {
